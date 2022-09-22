@@ -63,7 +63,7 @@
     <key>package_description</key>
     <map>
       <key>canonical_repo</key>
-      <string>https://bitbucket.org/lindenlab/3p-libpng</string>
+      <string>https://github.com/secondlife/3p-libpng</string>
       <key>copyright</key>
       <string>Copyright (c) 2004, 2006-2013 Glenn Randers-Pehrson</string>
       <key>description</key>
