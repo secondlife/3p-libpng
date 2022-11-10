@@ -89,7 +89,7 @@ pushd "$PNG_SOURCE_DIR"
             fi
 
             cp -a "$bitdir/libpng16.lib" "$stage/lib/release/libpng16.lib"
-            cp -a "$bitdir/libpng16.pdb" "$stage/lib/release/"
+            cp -a "$bitdir/libpng16.bsc" "$stage/lib/release/"
             mkdir -p "$stage/include/libpng16"
             cp -a {png.h,pngconf.h,pnglibconf.h} "$stage/include/libpng16"
         ;;
