@@ -13693,19 +13693,17 @@ fi
 
 
 # Check whether --with-zlib-prefix was given.
-if test ${with_zlib_prefix+y}
-then :
+if test "${with_zlib_prefix+set}" = set; then :
   withval=$with_zlib_prefix; ZPREFIX=${withval}
-else $as_nop
+else
   ZPREFIX='z_'
 fi
 
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for zlibVersion in -lz" >&5
-printf %s "checking for zlibVersion in -lz... " >&6; }
-if test ${ac_cv_lib_z_zlibVersion+y}
-then :
-  printf %s "(cached) " >&6
-else $as_nop
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for zlibVersion in -lz" >&5
+$as_echo_n "checking for zlibVersion in -lz... " >&6; }
+if ${ac_cv_lib_z_zlibVersion+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
   ac_check_lib_save_LIBS=$LIBS
 LIBS="-lz  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
@@ -13714,41 +13712,43 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* Override any GCC internal prototype to avoid an error.
    Use char because int might match the return type of a GCC
    builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
 char zlibVersion ();
 int
-main (void)
+main ()
 {
 return zlibVersion ();
   ;
   return 0;
 }
 _ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
+if ac_fn_c_try_link "$LINENO"; then :
   ac_cv_lib_z_zlibVersion=yes
-else $as_nop
+else
   ac_cv_lib_z_zlibVersion=no
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
+rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_z_zlibVersion" >&5
-printf "%s\n" "$ac_cv_lib_z_zlibVersion" >&6; }
-if test "x$ac_cv_lib_z_zlibVersion" = xyes
-then :
-  printf "%s\n" "#define HAVE_LIBZ 1" >>confdefs.h
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_z_zlibVersion" >&5
+$as_echo "$ac_cv_lib_z_zlibVersion" >&6; }
+if test "x$ac_cv_lib_z_zlibVersion" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBZ 1
+_ACEOF
 
   LIBS="-lz $LIBS"
 
-else $as_nop
-  as_ac_Lib=`printf "%s\n" "ac_cv_lib_z_${ZPREFIX}zlibVersion" | $as_tr_sh`
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for ${ZPREFIX}zlibVersion in -lz" >&5
-printf %s "checking for ${ZPREFIX}zlibVersion in -lz... " >&6; }
-if eval test \${$as_ac_Lib+y}
-then :
-  printf %s "(cached) " >&6
-else $as_nop
+else
+  as_ac_Lib=`$as_echo "ac_cv_lib_z_${ZPREFIX}zlibVersion" | $as_tr_sh`
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for ${ZPREFIX}zlibVersion in -lz" >&5
+$as_echo_n "checking for ${ZPREFIX}zlibVersion in -lz... " >&6; }
+if eval \${$as_ac_Lib+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
   ac_check_lib_save_LIBS=$LIBS
 LIBS="-lz  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
@@ -13757,35 +13757,38 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* Override any GCC internal prototype to avoid an error.
    Use char because int might match the return type of a GCC
    builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
 char ${ZPREFIX}zlibVersion ();
 int
-main (void)
+main ()
 {
 return ${ZPREFIX}zlibVersion ();
   ;
   return 0;
 }
 _ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
+if ac_fn_c_try_link "$LINENO"; then :
   eval "$as_ac_Lib=yes"
-else $as_nop
+else
   eval "$as_ac_Lib=no"
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
+rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
 eval ac_res=\$$as_ac_Lib
-	       { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-printf "%s\n" "$ac_res" >&6; }
-if eval test \"x\$"$as_ac_Lib"\" = x"yes"
-then :
-  printf "%s\n" "#define HAVE_LIBZ 1" >>confdefs.h
+	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+$as_echo "$ac_res" >&6; }
+if eval test \"x\$"$as_ac_Lib"\" = x"yes"; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBZ 1
+_ACEOF
 
   LIBS="-lz $LIBS"
 
-else $as_nop
+else
   as_fn_error $? "zlib not installed" "$LINENO" 5
 fi
 
