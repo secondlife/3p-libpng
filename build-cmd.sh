@@ -134,11 +134,11 @@ pushd "$PNG_SOURCE_DIR"
             #dylib# install_name_tool -id "${install_name}" "${stage}/lib/release/${target_name}"
 
             # conditionally run unit tests
-            if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+            #if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
                 #dylib# mkdir -p ./Resources/
                 #dylib# ln -sf "${stage}"/lib/release/*.dylib ./Resources/
 
-                make test
+                #make test
                 #dylib# Modify the unit test binaries after-the-fact to point
                 #dylib# to the expected path then run the tests again.
                 #dylib# 
@@ -149,7 +149,7 @@ pushd "$PNG_SOURCE_DIR"
                 #dylib# make test
 
                 #dylib# rm -rf ./Resources/
-            fi
+            #fi
 
             # clean the build artifacts
             make distclean
