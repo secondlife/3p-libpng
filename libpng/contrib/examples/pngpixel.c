@@ -8,7 +8,7 @@
  * Read a single pixel value from a PNG file.
  *
  * This code illustrates basic 'by-row' reading of a PNG file using libpng.
- * Rows are read until a particular pixel is found, the value of this pixel is
+ * Rows are read until a particular pixel is found; the value of this pixel is
  * then printed on stdout.
  *
  * The code illustrates how to do this on interlaced as well as non-interlaced
@@ -27,6 +27,8 @@
  */
 #include "../../png.h"
 
+#if defined(PNG_READ_SUPPORTED) && defined(PNG_SEQUENTIAL_READ_SUPPORTED)
+
 /* Return component 'c' of pixel 'x' from the given row. */
 static unsigned int
 component(png_const_bytep row, png_uint_32 x, unsigned int c,
@@ -40,7 +42,7 @@ component(png_const_bytep row, png_uint_32 x, unsigned int c,
    png_uint_32 bit_offset_hi = bit_depth * ((x >> 6) * channels);
    png_uint_32 bit_offset_lo = bit_depth * ((x & 0x3f) * channels + c);
 
-   row = (png_const_bytep)(((PNG_CONST png_byte (*)[8])row) + bit_offset_hi);
+   row = (png_const_bytep)(((const png_byte (*)[8])row) + bit_offset_hi);
    row += bit_offset_lo >> 3;
    bit_offset_lo &= 0x07;
 
@@ -56,7 +58,7 @@ component(png_const_bytep row, png_uint_32 x, unsigned int c,
       case 8: return row[0];
       case 16: return (row[0] << 8) + row[1];
       default:
-         /* This should never happen, it indicates a bug in this program or in
+         /* This should never happen; it indicates a bug in this program or in
           * libpng itself:
           */
          fprintf(stderr, "pngpixel: invalid bit depth %u\n", bit_depth);
@@ -71,7 +73,7 @@ static void
 print_pixel(png_structp png_ptr, png_infop info_ptr, png_const_bytep row,
    png_uint_32 x)
 {
-   PNG_CONST unsigned int bit_depth = png_get_bit_depth(png_ptr, info_ptr);
+   unsigned int bit_depth = png_get_bit_depth(png_ptr, info_ptr);
 
    switch (png_get_color_type(png_ptr, info_ptr))
    {
@@ -85,7 +87,7 @@ print_pixel(png_structp png_ptr, png_infop info_ptr, png_const_bytep row,
        */
       case PNG_COLOR_TYPE_PALETTE:
          {
-            PNG_CONST unsigned int index = component(row, x, 0, bit_depth, 1);
+            int index = component(row, x, 0, bit_depth, 1);
             png_colorp palette = NULL;
             int num_palette = 0;
 
@@ -132,7 +134,7 @@ print_pixel(png_structp png_ptr, png_infop info_ptr, png_const_bytep row,
          return;
 
       default:
-         png_error(png_ptr, "invalid color type");
+         png_error(png_ptr, "pngpixel: invalid color type");
    }
 }
 
@@ -366,3 +368,4 @@ int main(int argc, const char **argv)
 
    return result;
 }
+#endif /* READ && SEQUENTIAL_READ */
