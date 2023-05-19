@@ -198,8 +198,8 @@
           </array>
         </map>
       </map>
-      <key>use_scm_version</key>
-      <boolean>true</boolean>
+      <key>version_file</key>
+      <string>VERSION.txt</string>
     </map>
     <key>type</key>
     <string>autobuild</string>
