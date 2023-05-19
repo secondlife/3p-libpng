@@ -1,8 +1,7 @@
+
 /* readpng.c
  *
  * Copyright (c) 2013 John Cunningham Bowler
- *
- * Last changed in libpng 1.6.1 [March 28, 2013]
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
@@ -60,8 +59,9 @@ read_png(FILE *fp)
    png_read_info(png_ptr, info_ptr);
 
    {
-      png_size_t rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+      size_t rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 
+      /* Failure to initialize these is harmless */
       row = malloc(rowbytes);
       display = malloc(rowbytes);
 
@@ -70,7 +70,12 @@ read_png(FILE *fp)
 
       {
          png_uint_32 height = png_get_image_height(png_ptr, info_ptr);
-         int passes = png_set_interlace_handling(png_ptr);
+#        ifdef PNG_READ_INTERLACING_SUPPORTED
+            int passes = png_set_interlace_handling(png_ptr);
+#        else /* !READ_INTERLACING */
+            int passes = png_get_interlace_type(png_ptr, info_ptr) ==
+               PNG_INTERLACE_ADAM7 ? PNG_INTERLACE_ADAM7_PASSES : 1;
+#        endif /* !READ_INTERLACING */
          int pass;
 
          png_start_read_image(png_ptr);
@@ -78,6 +83,11 @@ read_png(FILE *fp)
          for (pass = 0; pass < passes; ++pass)
          {
             png_uint_32 y = height;
+
+#           ifndef PNG_READ_INTERLACING_SUPPORTED
+               if (passes == PNG_INTERLACE_ADAM7_PASSES)
+                  y = PNG_PASS_ROWS(y, pass);
+#           endif /* READ_INTERLACING */
 
             /* NOTE: this trashes the row each time; interlace handling won't
              * work, but this avoids memory thrashing for speed testing.

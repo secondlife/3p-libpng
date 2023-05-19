@@ -194,7 +194,7 @@
           <key>manifest</key>
           <array>
             <string>lib/release/libpng16.lib</string>
-            <string>lib/release/libpng16.pdb</string>
+            <string>lib/release/libpng16.bsc</string>
           </array>
         </map>
       </map>
