@@ -71,7 +71,7 @@ restore_dylibs ()
 symbol="PNG_LIBPNG_VER_STRING"
 version="$(expr "$(grep "$symbol" libpng/png.h)" : ".*$symbol \"\([^\"]*\)\"")"
 build=${AUTOBUILD_BUILD_ID:=0}
-echo "${version}.${build}" > "${stage}/VERSION.txt"
+echo "${version}-${build}" > "${stage}/VERSION.txt"
 
 pushd "$PNG_SOURCE_DIR"
     case "$AUTOBUILD_PLATFORM" in
