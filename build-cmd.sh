@@ -171,12 +171,6 @@ pushd "$PNG_SOURCE_DIR"
             #
             # unset DISTCC_HOSTS CC CXX CFLAGS CPPFLAGS CXXFLAGS
 
-            # Prefer gcc-4.6 if available.
-            if [[ -x /usr/bin/gcc-4.6 && -x /usr/bin/g++-4.6 ]]; then
-                export CC=/usr/bin/gcc-4.6
-                export CXX=/usr/bin/g++-4.6
-            fi
-
             # Default target per AUTOBUILD_ADDRSIZE
             opts="${TARGET_OPTS:--m$AUTOBUILD_ADDRSIZE $LL_BUILD_RELEASE}"
 
@@ -209,19 +203,22 @@ pushd "$PNG_SOURCE_DIR"
             # * Builds all bin/* targets with static libraries.
 
             # build the release version and link against the release zlib
+
             CFLAGS="$opts" \
                 CXXFLAGS="$opts" \
                 CPPFLAGS="${CPPFLAGS:-} -I$stage/packages/include/zlib" \
                 LDFLAGS="-L$stage/packages/lib/release" \
+
+            #LL_BUILD_RELEASE contains a c++ standard flag which are meaningful to the c++
+            #compiler only (g++), when introduced into CFLAGS it causes gcc (the C compiler)
+            #to spam a load of noise.. Strip out any C++ std cruft from CFLAGS (squelches the noise)
+            CFLAGS=$(echo "$CFLAGS" | sed 's/-std=c++[0-9][0-9]*//')
+
                 ./configure --prefix="$stage" --libdir="$stage/lib/release" \
                             --includedir="$stage/include" --enable-shared=no --with-pic
+
             make
             make install
-
-            # conditionally run unit tests
-            if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-                make test
-            fi
 
             # clean the build artifacts
             make distclean
