@@ -125,7 +125,6 @@ pushd "$PNG_SOURCE_DIR"
 
             # See "linux" section for goals/challenges here...
             CFLAGS="$(remove_cxxstd $opts)" \
-            CFLAGS="$opts" \
                 CXXFLAGS="$opts" \
                 CPPFLAGS="${CPPFLAGS:-} -I$stage/packages/include/zlib" \
                 LDFLAGS="-L$stage/packages/lib/release" \
@@ -206,7 +205,6 @@ pushd "$PNG_SOURCE_DIR"
 
             # build the release version and link against the release zlib
             CFLAGS="$(remove_cxxstd $opts)" \
-            CFLAGS="$opts" \
                 CXXFLAGS="$opts" \
                 CPPFLAGS="${CPPFLAGS:-} -I$stage/packages/include/zlib" \
                 LDFLAGS="-L$stage/packages/lib/release" \
