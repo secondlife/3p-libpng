@@ -28,6 +28,8 @@ source_environment_tempfile="$stage/source_environment.sh"
 "$autobuild" source_environment > "$source_environment_tempfile"
 . "$source_environment_tempfile"
 
+source "$(dirname "$AUTOBUILD_VARIABLES_FILE")/functions"
+
 [ -f "$stage"/packages/include/zlib-ng/zlib.h ] || \
 { echo "Run 'autobuild install' first." 1>&2 ; exit 1; }
 
@@ -122,7 +124,7 @@ pushd "$PNG_SOURCE_DIR"
             done
 
             # See "linux" section for goals/challenges here...
-
+            CFLAGS="$(remove_cxxstd $opts)" \
             CFLAGS="$opts" \
                 CXXFLAGS="$opts" \
                 CPPFLAGS="${CPPFLAGS:-} -I$stage/packages/include/zlib" \
@@ -203,17 +205,11 @@ pushd "$PNG_SOURCE_DIR"
             # * Builds all bin/* targets with static libraries.
 
             # build the release version and link against the release zlib
-
+            CFLAGS="$(remove_cxxstd $opts)" \
             CFLAGS="$opts" \
                 CXXFLAGS="$opts" \
                 CPPFLAGS="${CPPFLAGS:-} -I$stage/packages/include/zlib" \
                 LDFLAGS="-L$stage/packages/lib/release" \
-
-            #LL_BUILD_RELEASE contains a c++ standard flag which are meaningful to the c++
-            #compiler only (g++), when introduced into CFLAGS it causes gcc (the C compiler)
-            #to spam a load of noise.. Strip out any C++ std cruft from CFLAGS (squelches the noise)
-            CFLAGS=$(echo "$CFLAGS" | sed 's/-std=c++[0-9][0-9]*//')
-
                 ./configure --prefix="$stage" --libdir="$stage/lib/release" \
                             --includedir="$stage/include" --enable-shared=no --with-pic
 
