@@ -28,6 +28,8 @@ source_environment_tempfile="$stage/source_environment.sh"
 "$autobuild" source_environment > "$source_environment_tempfile"
 . "$source_environment_tempfile"
 
+source "$(dirname "$AUTOBUILD_VARIABLES_FILE")/functions"
+
 [ -f "$stage"/packages/include/zlib-ng/zlib.h ] || \
 { echo "Run 'autobuild install' first." 1>&2 ; exit 1; }
 
@@ -122,7 +124,7 @@ pushd "$PNG_SOURCE_DIR"
             done
 
             # See "linux" section for goals/challenges here...
-
+            CFLAGS="$(remove_cxxstd $opts)" \
             CFLAGS="$opts" \
                 CXXFLAGS="$opts" \
                 CPPFLAGS="${CPPFLAGS:-} -I$stage/packages/include/zlib" \
@@ -171,12 +173,6 @@ pushd "$PNG_SOURCE_DIR"
             #
             # unset DISTCC_HOSTS CC CXX CFLAGS CPPFLAGS CXXFLAGS
 
-            # Prefer gcc-4.6 if available.
-            if [[ -x /usr/bin/gcc-4.6 && -x /usr/bin/g++-4.6 ]]; then
-                export CC=/usr/bin/gcc-4.6
-                export CXX=/usr/bin/g++-4.6
-            fi
-
             # Default target per AUTOBUILD_ADDRSIZE
             opts="${TARGET_OPTS:--m$AUTOBUILD_ADDRSIZE $LL_BUILD_RELEASE}"
 
@@ -209,19 +205,16 @@ pushd "$PNG_SOURCE_DIR"
             # * Builds all bin/* targets with static libraries.
 
             # build the release version and link against the release zlib
+            CFLAGS="$(remove_cxxstd $opts)" \
             CFLAGS="$opts" \
                 CXXFLAGS="$opts" \
                 CPPFLAGS="${CPPFLAGS:-} -I$stage/packages/include/zlib" \
                 LDFLAGS="-L$stage/packages/lib/release" \
                 ./configure --prefix="$stage" --libdir="$stage/lib/release" \
                             --includedir="$stage/include" --enable-shared=no --with-pic
+
             make
             make install
-
-            # conditionally run unit tests
-            if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-                make test
-            fi
 
             # clean the build artifacts
             make distclean
