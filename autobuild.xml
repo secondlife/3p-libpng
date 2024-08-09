@@ -16,11 +16,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>717f4d912cedaac8efa5d0562cb3b328f7366784</string>
+              <string>3a6593c71c59ace76d1349483759fcde4b719a76</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.1.6-r3/zlib_ng-2.1.6-r3-darwin64-8413227030.tar.zst</string>
+              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.2.1-r2/zlib_ng-2.2.1-r2-darwin64-10324415171.tar.zst</string>
             </map>
             <key>name</key>
             <string>darwin64</string>
@@ -30,11 +30,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>24035cd24f694e8e5d2a17fef84c9ed3c4d00a04</string>
+              <string>fbadeb0b8c771cb06c0055c9fab6d40c6764dacd</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.1.6-r3/zlib_ng-2.1.6-r3-linux64-8413227030.tar.zst</string>
+              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.2.1-r2/zlib_ng-2.2.1-r2-linux64-10324415171.tar.zst</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -58,11 +58,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>aa20285e6e6b5fbf3224000d784334b1603834c9</string>
+              <string>0094031715662be626f5106ff6c814f4fc3dacfa</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.1.6-r3/zlib_ng-2.1.6-r3-windows64-8413227030.tar.zst</string>
+              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.2.1-r2/zlib_ng-2.2.1-r2-windows64-10324415171.tar.zst</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -75,7 +75,7 @@
         <key>copyright</key>
         <string>Copyright (C) 1995-2013 Jean-loup Gailly and Mark Adler</string>
         <key>version</key>
-        <string>2.1.6-r3</string>
+        <string>2.2.1-r2</string>
         <key>name</key>
         <string>zlib-ng</string>
         <key>canonical_repo</key>
@@ -101,7 +101,7 @@
                 <key>arguments</key>
                 <array>
                   <string>../build-cmd.sh</string>
-</array>
+                </array>
               </map>
               <key>name</key>
               <string>default</string>
@@ -112,7 +112,7 @@
             <string>include/libpng16/png.h</string>
             <string>include/libpng16/pngconf.h</string>
             <string>include/libpng16/pnglibconf.h</string>
-</array>
+          </array>
           <key>name</key>
           <string>common</string>
         </map>
@@ -135,7 +135,7 @@
           <array>
             <string>lib/release/libpng16.a</string>
             <string>lib/release/libpng.a</string>
-</array>
+          </array>
           <key>build_directory</key>
           <string>stage</string>
           <key>name</key>
@@ -160,7 +160,7 @@
           <array>
             <string>lib/release/libpng16.a</string>
             <string>lib/release/libpng.a</string>
-</array>
+          </array>
           <key>build_directory</key>
           <string>stage</string>
           <key>name</key>
@@ -184,7 +184,7 @@
           <key>manifest</key>
           <array>
             <string>lib/release/libpng16.lib</string>
-</array>
+          </array>
           <key>build_directory</key>
           <string>stage</string>
         </map>
