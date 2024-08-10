@@ -1,21 +1,14 @@
 <?xml version="1.0" ?>
-<llsd><map>
+<llsd>
+<map>
+    <key>version</key>
+    <string>1.3</string>
+    <key>type</key>
+    <string>autobuild</string>
     <key>installables</key>
     <map>
       <key>zlib-ng</key>
       <map>
-        <key>canonical_repo</key>
-        <string>https://bitbucket.org/lindenlab/3p-zlib-ng</string>
-        <key>copyright</key>
-        <string>Copyright (C) 1995-2013 Jean-loup Gailly and Mark Adler</string>
-        <key>description</key>
-        <string>zlib data compression library for the next generation systems</string>
-        <key>license</key>
-        <string>zlib-ng</string>
-        <key>license_file</key>
-        <string>LICENSES/zlib-ng.txt</string>
-        <key>name</key>
-        <string>zlib-ng</string>
         <key>platforms</key>
         <map>
           <key>darwin64</key>
@@ -23,11 +16,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>dacc5f3fb307c4d1292ed1ffb1d595d83599062d</string>
+              <string>3a6593c71c59ace76d1349483759fcde4b719a76</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v1.2.11.zlib-ng.32fd361/zlib_ng-1.2.11.zlib-ng.32fd361-darwin64-32fd361.tar.zst</string>
+              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.2.1-r2/zlib_ng-2.2.1-r2-darwin64-10324415171.tar.zst</string>
             </map>
             <key>name</key>
             <string>darwin64</string>
@@ -37,11 +30,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fba88375e12454ae19f4528e11ffc7ddf7d879ec</string>
+              <string>fbadeb0b8c771cb06c0055c9fab6d40c6764dacd</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v1.2.11.zlib-ng.32fd361/zlib_ng-1.2.11.zlib-ng.32fd361-linux64-32fd361.tar.zst</string>
+              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.2.1-r2/zlib_ng-2.2.1-r2-linux64-10324415171.tar.zst</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -65,34 +58,34 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ccfca9451063e2d0e95baa73b1ad2054d3e38907</string>
+              <string>0094031715662be626f5106ff6c814f4fc3dacfa</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v1.2.11.zlib-ng.32fd361/zlib_ng-1.2.11.zlib-ng.32fd361-windows64-32fd361.tar.zst</string>
+              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.2.1-r2/zlib_ng-2.2.1-r2-windows64-10324415171.tar.zst</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
+        <key>license</key>
+        <string>zlib-ng</string>
+        <key>license_file</key>
+        <string>LICENSES/zlib-ng.txt</string>
+        <key>copyright</key>
+        <string>Copyright (C) 1995-2013 Jean-loup Gailly and Mark Adler</string>
         <key>version</key>
-        <string>1.2.11.zlib-ng.32fd361</string>
+        <string>2.2.1-r2</string>
+        <key>name</key>
+        <string>zlib-ng</string>
+        <key>canonical_repo</key>
+        <string>https://bitbucket.org/lindenlab/3p-zlib-ng</string>
+        <key>description</key>
+        <string>zlib data compression library for the next generation systems</string>
       </map>
     </map>
     <key>package_description</key>
     <map>
-      <key>canonical_repo</key>
-      <string>https://github.com/secondlife/3p-libpng</string>
-      <key>copyright</key>
-      <string>Copyright (c) 2004, 2006-2013 Glenn Randers-Pehrson</string>
-      <key>description</key>
-      <string>PNG Reference library</string>
-      <key>license</key>
-      <string>libpng</string>
-      <key>license_file</key>
-      <string>LICENSES/libpng.txt</string>
-      <key>name</key>
-      <string>libpng</string>
       <key>platforms</key>
       <map>
         <key>common</key>
@@ -103,12 +96,12 @@
             <map>
               <key>build</key>
               <map>
+                <key>command</key>
+                <string>bash</string>
                 <key>arguments</key>
                 <array>
                   <string>../build-cmd.sh</string>
                 </array>
-                <key>command</key>
-                <string>bash</string>
               </map>
               <key>name</key>
               <string>default</string>
@@ -119,15 +112,12 @@
             <string>include/libpng16/png.h</string>
             <string>include/libpng16/pngconf.h</string>
             <string>include/libpng16/pnglibconf.h</string>
-            <string>docs/libpng/README.Linden</string>
           </array>
           <key>name</key>
           <string>common</string>
         </map>
         <key>darwin</key>
         <map>
-          <key>build_directory</key>
-          <string>stage</string>
           <key>configurations</key>
           <map>
             <key>default</key>
@@ -146,13 +136,13 @@
             <string>lib/release/libpng16.a</string>
             <string>lib/release/libpng.a</string>
           </array>
+          <key>build_directory</key>
+          <string>stage</string>
           <key>name</key>
           <string>darwin</string>
         </map>
         <key>linux</key>
         <map>
-          <key>build_directory</key>
-          <string>stage</string>
           <key>configurations</key>
           <map>
             <key>default</key>
@@ -171,13 +161,13 @@
             <string>lib/release/libpng16.a</string>
             <string>lib/release/libpng.a</string>
           </array>
+          <key>build_directory</key>
+          <string>stage</string>
           <key>name</key>
           <string>linux</string>
         </map>
         <key>windows</key>
         <map>
-          <key>build_directory</key>
-          <string>stage</string>
           <key>configurations</key>
           <map>
             <key>default</key>
@@ -194,15 +184,25 @@
           <key>manifest</key>
           <array>
             <string>lib/release/libpng16.lib</string>
-            <string>lib/release/libpng16.bsc</string>
           </array>
+          <key>build_directory</key>
+          <string>stage</string>
         </map>
       </map>
-      <key>version_file</key>
-      <string>VERSION.txt</string>
+      <key>license</key>
+      <string>libpng</string>
+      <key>license_file</key>
+      <string>LICENSES/libpng.txt</string>
+      <key>copyright</key>
+      <string>Copyright (c) 2004, 2006-2013 Glenn Randers-Pehrson</string>
+      <key>use_scm_version</key>
+      <boolean>true</boolean>
+      <key>name</key>
+      <string>libpng</string>
+      <key>canonical_repo</key>
+      <string>https://github.com/secondlife/3p-libpng</string>
+      <key>description</key>
+      <string>PNG Reference library</string>
     </map>
-    <key>type</key>
-    <string>autobuild</string>
-    <key>version</key>
-    <string>1.3</string>
-  </map></llsd>
+  </map>
+</llsd>
