@@ -6,7 +6,7 @@ set -e
 
 PNG_SOURCE_DIR="libpng"
 
-if [ -z "$AUTOBUILD" ] ; then 
+if [ -z "$AUTOBUILD" ] ; then
     exit 1
 fi
 
@@ -47,12 +47,12 @@ pushd "$PNG_SOURCE_DIR"
                     -DZLIB_INCLUDE_DIR="$(cygpath -m "$stage/packages/include/zlib-ng/")" \
                     -DZLIB_LIBRARY="$(cygpath -m "$stage/packages/lib/release/zlib.lib")" \
                     -DCMAKE_INSTALL_PREFIX=$(cygpath -m $stage)
-            
-                cmake --build . --config Release
+
+                cmake --build . --config Release --parallel $AUTOBUILD_CPU_COUNT
 
                 # conditionally run unit tests
                 if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-                    ctest -C Release
+                    ctest -C Release --parallel $AUTOBUILD_CPU_COUNT
                 fi
 
                 cmake --install . --config Release
@@ -63,34 +63,45 @@ pushd "$PNG_SOURCE_DIR"
         ;;
 
         darwin*)
-            mkdir -p "build"
-            pushd "build"
-
             export MACOSX_DEPLOYMENT_TARGET="$LL_BUILD_DARWIN_DEPLOY_TARGET"
 
-            opts="${TARGET_OPTS:--arch $AUTOBUILD_CONFIGURE_ARCH $LL_BUILD_RELEASE}"
+            for arch in x86_64 arm64 ; do
+                ARCH_ARGS="-arch $arch"
+                opts="${TARGET_OPTS:-$ARCH_ARGS $LL_BUILD_RELEASE}"
+                cc_opts="$(remove_cxxstd $opts)"
+                ld_opts="$ARCH_ARGS"
 
-            cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release \
-                -DCMAKE_C_FLAGS:STRING="$(remove_cxxstd $opts)" \
-                -DCMAKE_CXX_FLAGS:STRING="$opts" \
-                -DPNG_SHARED=ON \
-                -DPNG_HARDWARE_OPTIMIZATIONS=ON \
-                -DZLIB_INCLUDE_DIR="$stage/packages/include/zlib-ng/" \
-                -DZLIB_LIBRARY="$stage/packages/lib/release/libz.a" \
-                -DCMAKE_INSTALL_PREFIX="$stage" \
-                -DCMAKE_INSTALL_LIBDIR="$stage/lib/release" \
-                -DCMAKE_OSX_DEPLOYMENT_TARGET=${MACOSX_DEPLOYMENT_TARGET} \
-                -DCMAKE_OSX_ARCHITECTURES="x86_64"
+                mkdir -p "build_$arch"
+                pushd "build_$arch"
+                    CFLAGS="$cc_opts" \
+                    CXXFLAGS="$opts" \
+                    LDFLAGS="$ld_opts" \
+                    cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release \
+                        -DCMAKE_C_FLAGS:STRING="$cc_opts" \
+                        -DCMAKE_CXX_FLAGS:STRING="$opts" \
+                        -DPNG_SHARED=ON \
+                        -DPNG_HARDWARE_OPTIMIZATIONS=ON \
+                        -DZLIB_INCLUDE_DIR="$stage/packages/include/zlib-ng/" \
+                        -DZLIB_LIBRARY="$stage/packages/lib/release/libz.a" \
+                        -DCMAKE_INSTALL_PREFIX="$stage" \
+                        -DCMAKE_INSTALL_LIBDIR="$stage/lib/release/$arch" \
+                        -DCMAKE_OSX_DEPLOYMENT_TARGET=${MACOSX_DEPLOYMENT_TARGET} \
+                        -DCMAKE_OSX_ARCHITECTURES="$arch"
 
-            cmake --build . --config Release
+                    cmake --build . --config Release --parallel $AUTOBUILD_CPU_COUNT
 
-            # conditionally run unit tests
-            if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-                ctest -C Release
-            fi
+                    # conditionally run unit tests
+                    if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+                        ctest -C Release --parallel $AUTOBUILD_CPU_COUNT
+                    fi
 
-            cmake --install . --config Release
-            popd
+                    cmake --install . --config Release
+                popd
+            done
+
+            # Create universal library
+            lipo -create -output "$stage/lib/release/libpng16.a" "$stage/lib/release/x86_64/libpng16.a" "$stage/lib/release/arm64/libpng16.a"
+            cp -a "$stage"/lib/release/x86_64/libpng.a "$stage"/lib/release/
         ;;
 
         linux*)
@@ -110,11 +121,11 @@ pushd "$PNG_SOURCE_DIR"
                 -DCMAKE_INSTALL_PREFIX="$stage" \
                 -DCMAKE_INSTALL_LIBDIR="$stage/lib/release"
 
-            cmake --build . --config Release
+            cmake --build . --config Release --parallel $AUTOBUILD_CPU_COUNT
 
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-                ctest -C Release
+                ctest -C Release --parallel $AUTOBUILD_CPU_COUNT
             fi
 
             cmake --install . --config Release
